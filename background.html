@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주기적인 처리 / window 시간차마다 실행하기</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner {
+            height: 0;
+            padding-top: 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: 0.5s;
+        }
+
+        .banner .btns {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .banner .btns span {
+            border-radius: 50px;
+            border: 2px solid #000;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .banner .btns span.act {
+            color: red;
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="banner">
+        <div id="banner" class="banner red cc bbb " style="background-image: url(img/banner_0.jpg);">
+
+        </div>
+        <div class="btns"></div>
+    </section>
+
+
+    <script>
+        //    웹기능사 문제
+        //1.  3초마다 서서히 나타났다 사라지는 배너효과를 구현
+        //2.  3초마다 좌우로 슬라이드하면서 움직이는 효과
+        //3.  3초마다 위아래로 슬라이드 하면서 움직이는 효과
+        let count = 0;
+        const contentnum = 6;
+        //버튼만들기
+        let btntag = "";
+        for (i = 0; i < contentnum; i++) {
+            btntag += "<span>" + i + "</span>"
+        }
+        document.querySelector(".banner .btns").innerHTML = btntag;
+
+        const autocolor = () => {
+            count++;
+            count %= contentnum;
+            document.querySelector("#banner").style.backgroundImage = `url(img/banner_${count}.jpg)`;
+            document.querySelectorAll(".banner .btns  span").forEach((el, idx) => {
+                //console.log(el, idx)
+                if (count === idx) {
+                    el.classList = "act"
+                } else {
+                    el.classList = ""
+                }
+            })
+
+        }
+
+        let autobackground = setInterval(function () { autocolor(); }, 3000);
+
+        document.querySelector(".banner .btns span").forEach((el, idx) => {
+            el.addEventListener('click', function () {
+                clearInterval(autobackground);
+
+                document.querySelectorAll(".banner .btns span").classList = "";
+
+                el.classList = "act";
+            })
+        })
+
+    </script>
+</body>
+
+</html>
